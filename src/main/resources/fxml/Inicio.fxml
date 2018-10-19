@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.InicioController">
+   <children>
+      <MenuBar>
+        <menus>
+          <Menu mnemonicParsing="false" text="Paciente">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#showPaciente" text="Ingresar / Editar" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Ficha Prenatal">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#showNuevoFichaPrenatal" text="Ingresar / Editar" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Hospital">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#showEmpresa" text="Datos" />
+                  <MenuItem mnemonicParsing="false" onAction="#showMedicinas" text="Medicinas" />
+                  <MenuItem mnemonicParsing="false" onAction="#showPrescripcion" text="Unspecified Action" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <BorderPane VBox.vgrow="ALWAYS">
+         <bottom>
+            <HBox alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="200.0" style="-fx-background-color: silver;">
+               <children>
+                  <Label fx:id="lblConnectioninfo" text="Connection Info:" />
+               </children>
+               <effect>
+                  <Glow />
+               </effect>
+            </HBox>
+         </bottom>
+         <center>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+         </center>
+      </BorderPane>
+   </children>
+</VBox>

@@ -1,0 +1,36 @@
+.container{
+    -fx-padding: 20;
+}
+.grid-container {
+    -fx-hgap: 10;
+    -fx-vgap: 10;
+}
+.buttons-container{
+
+}
+.titulo{
+
+-fx-font-size: 20px;
+    -fx-font-weight: bold ;
+}
+
+.error {
+    -fx-effect: dropshadow(three-pass-box, darkred, 7, 0, 0, 0);
+}
+
+.warning {
+    -fx-effect: dropshadow(three-pass-box, gold, 14, 0, 0, 0);
+}
+.success {
+    -fx-background-color: #00FF0055;
+}
+.green-icon{
+    -icons-color: green;
+    -fx-fill: -icons-color;
+    -glyph-size: 24px;
+}
+.red-icon{
+    -icons-color: red;
+    -fx-fill: -icons-color;
+    -glyph-size: 24px;
+}

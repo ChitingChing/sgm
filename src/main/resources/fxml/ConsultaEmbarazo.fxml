@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import org.controlsfx.control.PrefixSelectionComboBox?>
+<?import org.controlsfx.control.textfield.CustomTextField?>
+
+<VBox maxHeight="1.7976931348623157E308" minHeight="-Infinity" prefWidth="900.0" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ConsultaEmbarazoController">
+    <children>
+    <TitledPane fx:id="tpaneConsultaEmbarazo" collapsible="false" text="Datos de la Consulta del Embarazo">
+        <content>
+            <VBox spacing="10.0">
+                <children>
+                    <GridPane fx:id="gridPaneConsEmb" hgap="10.0" minHeight="-Infinity" vgap="10.0">
+                        <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="100.0" prefWidth="150.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="100.0" prefWidth="150.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="100.0" prefWidth="150.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="100.0" prefWidth="150.0" />
+                        </columnConstraints>
+                        <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        </rowConstraints>
+                        <children>
+                            <Label minHeight="-Infinity" text="Fecha de la Consulta:" wrapText="true" />
+                            <Label text="Movimiento Fetal:" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                            <Label text="Presentación:" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                            <Label text="F.C.F. :" GridPane.rowIndex="2" />
+                            <Label text="Alt. Uterina:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                            <Label text="Tension Arterial:" GridPane.rowIndex="1" />
+                            <Label text="Peso (Kg):" GridPane.columnIndex="4" />
+                            <Label maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" text="Semana de Amenorreas:" wrapText="true" GridPane.columnIndex="2" />
+                            <Label text="Edema:" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                            <Label text="Albuminuria:" GridPane.rowIndex="3" />
+                            <Label text="Sangrado Genital:" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                            <Label text="Examinador:" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+                            <DatePicker fx:id="dtpFechaConsulta" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" />
+                            <CustomTextField fx:id="txtSemanaAmenorreas" GridPane.columnIndex="3" />
+                            <CustomTextField fx:id="txtPeso" GridPane.columnIndex="5" />
+                            <CustomTextField fx:id="txtTensionArterialConsulta" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                            <CustomTextField fx:id="txtAltUterina" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                            <PrefixSelectionComboBox fx:id="cmbPresentacion" maxWidth="1.7976931348623157E308" minWidth="-Infinity" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                            <CustomTextField fx:id="txtFcf" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                            <CustomTextField fx:id="txtMovFetal" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                            <CustomTextField fx:id="txtEdema" GridPane.columnIndex="5" GridPane.rowIndex="2" />
+                            <CustomTextField fx:id="txtAlbuminuria" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                            <CustomTextField fx:id="txtSangradoGenital" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                            <CustomTextField fx:id="txtExaminador" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+                        </children>
+                    </GridPane>
+                    <HBox alignment="TOP_RIGHT" minWidth="-Infinity" spacing="10.0">
+                        <children>
+                            <Button fx:id="btnNuevoConsulta" mnemonicParsing="false" onAction="#NuevaConsultaEmb" text="Nuevo" />
+                            <Button fx:id="btnGuardarConsulta" mnemonicParsing="false" onAction="#guardarConsultaEmb" text="Guardar" />
+                            <Button fx:id="btnEliminarConsulta" mnemonicParsing="false" onAction="#EliminarConsultaEmb" text="Eliminar" />
+                        </children>
+                    </HBox>
+                    <TableView fx:id="gridConsulta" minWidth="-Infinity" prefHeight="200.0" tableMenuButtonVisible="true" />
+                </children>
+            </VBox>
+        </content>
+    </TitledPane>
+</children>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+</VBox>

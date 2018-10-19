@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="sgm@localhost" uuid="d2851696-f9b2-46ca-b40d-7f0263480639">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/sgm</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="hibernate.cfg.xml/Hibernate" uuid="cc1ab59d-0ff0-4c4e-af39-44c0f17278dc">
+      <driver-ref>azure.ms</driver-ref>
+      <synchronize>true</synchronize>
+      <imported>true</imported>
+      <remarks>Hibernate
+
+C:/Users/Chiting Ching/IdeaProjects/sgm/src/main/resources/hibernate.cfg.xml</remarks>
+      <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
+      <jdbc-url>jdbc:sqlserver://pruebasop2.database.windows.net:1433;database=sgm;</jdbc-url>
+      <driver-properties>
+        <property name="applicationName" value="DataGrip" />
+        <property name="trustServerCertificate" value="false" />
+        <property name="encrypt" value="true" />
+        <property name="loginTimeout" value="30" />
+        <property name="hostNameInCertificate" value="*.database.windows.net" />
+      </driver-properties>
+    </data-source>
+  </component>
+</project>

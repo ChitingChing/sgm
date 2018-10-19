@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import org.controlsfx.control.MaskerPane?>
+<?import org.controlsfx.control.PrefixSelectionComboBox?>
+<?import org.controlsfx.control.textfield.CustomTextField?>
+
+<StackPane fx:id="stackContainer" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PacienteController">
+   <children>
+      <VBox fx:id="vBoxContainer" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" spacing="10.0" styleClass="container">
+         <children>
+            <Label styleClass="titulo" text="REGISTRO DE PACIENTE" />
+            <HBox alignment="CENTER_RIGHT" prefWidth="200.0" spacing="10.0" styleClass="buttons-container">
+               <children>
+                <Button mnemonicParsing="false" onAction="#nuevoPaciente" prefHeight="50.0" text="Nuevo">
+                     <graphic>
+                        <FontAwesomeIconView glyphName="USER_PLUS" />
+                     </graphic>
+                  </Button>
+                  <Button fx:id="btnBuscarPaciente" mnemonicParsing="false" onAction="#showBuscarPaciente" prefHeight="50.0" text="Buscar">
+                     <graphic>
+                        <FontAwesomeIconView glyphName="SEARCH" />
+                     </graphic>
+                  </Button>
+                  <Button fx:id="btnGuardar" mnemonicParsing="false" onAction="#guardarPaciente" prefHeight="50.0" text="Guardar">
+                     <graphic>
+                        <FontAwesomeIconView glyphName="SAVE" />
+                     </graphic>
+                  </Button>
+               </children>
+            </HBox>
+            <GridPane fx:id="gridPaneControles" styleClass="grid-container">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="200.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="200.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <CustomTextField fx:id="txtCedula" onMouseEntered="#showError" GridPane.columnIndex="1" />
+                  <CustomTextField fx:id="txtNHistoriaclinica" GridPane.columnIndex="3" />
+                  <CustomTextField fx:id="txtPrimerApellido" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <CustomTextField fx:id="txtSegundoApellido" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                  <CustomTextField fx:id="txtPrimerNombre" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <CustomTextField fx:id="txtSegundonombre" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                  <CustomTextField fx:id="txtDireccion" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <CustomTextField fx:id="txtLocalidad" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                  <PrefixSelectionComboBox fx:id="cmbProvincia" maxWidth="1.7976931348623157E308" onAction="#getCantonesProvincia" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <PrefixSelectionComboBox fx:id="cmbCanton" maxWidth="1.7976931348623157E308" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                  <DatePicker fx:id="dtpFechaNac" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <CheckBox fx:id="chkAlfabeta" mnemonicParsing="false" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+                  <PrefixSelectionComboBox fx:id="cmbEstadoCivil" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                  <PrefixSelectionComboBox fx:id="cmbEstudios" maxWidth="1.7976931348623157E308" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+                  <CustomTextField fx:id="txtEmail" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                  <CustomTextField fx:id="txtCelular" GridPane.columnIndex="3" GridPane.rowIndex="7" />
+                  <Label text="Cédula:" />
+                  <Label text="Primer Apellido:" GridPane.rowIndex="1" />
+                  <Label text="Segundo Apellido:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <Label text="Provincia:" GridPane.rowIndex="4" />
+                  <Label text="Fecha de Nacimiento:" GridPane.rowIndex="5" />
+                  <Label text="Estado Civil:" GridPane.rowIndex="6" />
+                  <Label text="N° Historia Clínica:" GridPane.columnIndex="2" />
+                  <Label text="Segundo Nombre:" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <Label text="Localidad:" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                  <Label text="Cantón:" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                  <Label text="Alfabeta:" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                  <Label text="Primer Nombre:" GridPane.rowIndex="2" />
+                  <Label text="Dirección:" GridPane.rowIndex="3" />
+                  <Label text="Estudios:" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                  <Label text="Email:" GridPane.rowIndex="7" />
+                  <Label text="Celular:" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+               </children>
+            </GridPane>
+         </children>
+      </VBox>
+      <MaskerPane fx:id="esperaMskPane" text="Por favor espera..." visible="false" />
+   </children>
+</StackPane>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="sgm@localhost" uuid="d2851696-f9b2-46ca-b40d-7f0263480639">
+      <database-info product="PostgreSQL" version="10.4" jdbc-version="4.2" driver-name="PostgreSQL JDBC Driver" driver-version="42.2.4" family="POSTGRES" exact-version="10.4">
+        <identifier-quote-string>&quot;</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>postgres</user-name>
+      <introspection-schemas>sgm:@</introspection-schemas>
+    </data-source>
+    <data-source name="hibernate.cfg.xml/Hibernate" uuid="cc1ab59d-0ff0-4c4e-af39-44c0f17278dc">
+      <database-info product="Microsoft SQL Server" version="12.00.700" jdbc-version="4.2" driver-name="Microsoft JDBC Driver 7.0 for SQL Server" driver-version="7.0.0.0" family="MSSQL" exact-version="12.0.700">
+        <extra-name-characters>$#@</extra-name-characters>
+        <identifier-quote-string>&quot;</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="mixed" quoted-identifiers="mixed" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>Administrador</user-name>
+      <introspection-schemas>sgm:dbo</introspection-schemas>
+    </data-source>
+  </component>
+</project>
