@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+import net.bytebuddy.asm.Advice;
 import org.controlsfx.control.textfield.CustomTextField;
 import org.controlsfx.validation.Severity;
 import org.controlsfx.validation.ValidationSupport;
@@ -91,11 +92,14 @@ public class TrabajoPartoController {
 
     public void initialize(){
         try{
+            btnGuardar.setText("Agregar");
+            btnGuardar.setDisable(true);
             dtpFechaTrabParto.setValue(LocalDate.now());
+
             iniciarValidaciones();
             iniciarColumnas();
             gpaneTrabparto.setDisable(true);
-            btnGuardar.setDisable(true);
+
 
             tblTrabParto.setRowFactory(param -> {
                 TableRow<TrabajoParto> row = new TableRow<>();
@@ -187,12 +191,16 @@ public class TrabajoPartoController {
     public void limpiarControles(){
 
          gpaneTrabparto.getChildren().forEach(node -> Formularios.limpiarControles(node));
+         btnGuardar.setDisable(true);
+         btnGuardar.setText("Agregar");
+         gpaneTrabparto.setDisable(true);
     }
 
     public void limpiarControlesYLista(){
 
         gpaneTrabparto.getChildren().forEach(node -> Formularios.limpiarControles(node));
         trabajoPartoList.clear();
+        gpaneTrabparto.setDisable(true);
     }
 
     public void NuevaTrabParto(){
@@ -201,6 +209,7 @@ public class TrabajoPartoController {
         esNuevo=true;
         gpaneTrabparto.setDisable(false);
         btnGuardar.setDisable(false);
+        dtpFechaTrabParto.setValue(LocalDate.now());
 
     }
 
@@ -254,8 +263,10 @@ public class TrabajoPartoController {
             txtDilatacionCerv.setText(item.getDilatacion());
             txtMeconioTrabParto.setText(item.getMeconio());
             txtNombreExaminador.setText(item.getNombreExaminador());
+            trabajoParto=item;
             gpaneTrabparto.setDisable(false);
             btnGuardar.setDisable(false);
+            btnGuardar.setText("Actualizar");
             esNuevo=false;
         }catch (Exception ex){
         FxDialogs.showException("Error","Ha ocurrido un error ver mas en los detalles",ex);

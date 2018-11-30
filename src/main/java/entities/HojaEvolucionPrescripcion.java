@@ -9,7 +9,7 @@ import java.util.UUID;
 public class HojaEvolucionPrescripcion {
 
     @Id
-    @Column(columnDefinition = "uniqueidentifier")
+    @Column(columnDefinition = "uuid")
     private UUID id;
     private LocalDate fecha;
     private String hora;

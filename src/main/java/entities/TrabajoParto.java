@@ -8,7 +8,7 @@ import java.util.UUID;
 @Entity
 public class TrabajoParto {
     @Id
-    @Column(columnDefinition = "uniqueidentifier")
+    @Column(columnDefinition = "uuid")
     private UUID id;
     private LocalDateTime fechaHora;
     private String tensionArterial;

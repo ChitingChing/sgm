@@ -1,8 +1,10 @@
 package controllers;
 
+import Dao.EmpresaDao;
 import Dao.FichaPrenatalDao;
 import Dao.Otros;
 import entities.*;
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,9 +19,18 @@ import org.controlsfx.control.textfield.CustomTextField;
 import utilidades.Formularios;
 import utilidades.FxDialogs;
 
+import javax.xml.soap.AttachmentPart;
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Collection;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -50,6 +61,8 @@ public class FichaPrenatalController {
     @FXML
     private  Tab tabHojaEvolucion = new Tab();
     @FXML
+    private Tab tabArchivos = new Tab();
+    @FXML
     public StackPane stackContainer;
     @FXML private CustomTextField txtCedula;
     @FXML private CustomTextField txtApellidosNombres;
@@ -69,6 +82,7 @@ public class FichaPrenatalController {
     private  EgresoController egresoController;
     private  PostOperatorioController postOperatorioController;
     private  HojaEvolucionController hojaEvolucionController;
+    private ArchivoFichaPrenatalController archivoFichaController;
     private Boolean esNuevo;
 
     private Paciente paciente;
@@ -76,6 +90,8 @@ public class FichaPrenatalController {
     private TrabajoParto trabajoParto;
     private ConsultaEmbarazo consultaEmbarazo;
     private Puerperio puerperio;
+
+    private String rutaCarpetaArchivos;
 
     public void initialize()  {
 
@@ -137,6 +153,28 @@ public class FichaPrenatalController {
             root = loader.load();
             hojaEvolucionController = loader.getController();
             tabHojaEvolucion.setContent(root);
+
+            loader = new FXMLLoader(getClass().getResource("/fxml/ArchivoFichaPrenatal.fxml"));
+            root = loader.load();
+            archivoFichaController = loader.getController();
+            tabArchivos.setContent(root);
+
+            EmpresaDao emp = new EmpresaDao();
+            Empresa e = emp.getEmpresaDatos();
+            if(e!=null) {
+                rutaCarpetaArchivos = e.getDirectorioarchivos();
+
+                File f = new File(rutaCarpetaArchivos);
+                if (!f.isDirectory()) {
+                    FxDialogs.showError("Error", "La carpeta donde se guardarán los archivos no existe, favor verificar antes de continuar");
+                    throw new Exception();
+                }
+            }else{
+                FxDialogs.showError("Error", "La carpeta donde se guardarán los archivos no existe, favor verificar antes de continuar");
+                throw new Exception();
+            }
+
+
         }catch (Exception ex){
             FxDialogs.showException("Error","No se pudo cargar el formulario",ex);
             esperaMskPane.getScene().getWindow().hide();
@@ -352,6 +390,8 @@ public class FichaPrenatalController {
                 postOperatorioController.getTxtProcedimientoOperatorio().setText(ficha.getRecOpProcedimientoOperatorio());
                 // hoja evolucion
                 hojaEvolucionController.listaItems.setAll(ficha.getHojaEvolucionPrescripcionCollection());
+                //Archivos
+                archivoFichaController.archivoFichaPrenatalList.setAll(ficha.getArchivoFichaPrenatalCollection());
                 esNuevo = false;
                 panelFicha.setDisable(false);
             }
@@ -372,6 +412,7 @@ public class FichaPrenatalController {
         puerperioController.limpiarControlesYLista();
         postOperatorioController.limpiarControles();
         hojaEvolucionController.limpiarControlesYLista();
+        archivoFichaController.limpiarControlesYLista();
 
         ficha = null;
         consultaEmbarazo = null;
@@ -426,6 +467,7 @@ public class FichaPrenatalController {
                 @Override
                 protected Boolean call() throws Exception {
                     Boolean result = false;
+                    copiarArchivos(archivoFichaController.archivoFichaPrenatalList);
                     result = fDao.guardarFicha(ficha,esNuevo);
                     return result;
                 }
@@ -437,6 +479,8 @@ public class FichaPrenatalController {
                 if(tareaGuardarFicha.getValue()) {
                     esNuevo = false;
                     o.showNotificacionPane(notPane, "Datos guardados correctamente.",true  );
+
+
                 }else{
                     o.showNotificacionPane(notPane, "No se pudo guardar los datos.",false  );
                 }
@@ -447,10 +491,11 @@ public class FichaPrenatalController {
                 esperaMskPane.setVisible(false);
                 FxDialogs.showException("Error",event.getSource().getException().getMessage(),new Exception(event.getSource().getException()));
             });
-
+            copiarArchivos(archivoFichaController.archivoFichaPrenatalList);
             Thread threadGuardar = new Thread(tareaGuardarFicha);
             threadGuardar.setDaemon(true);
             threadGuardar.start();
+
         }catch (Exception ex) {
             FxDialogs.showException("Error","Ha ocurrido un error al guardar",ex );
             esperaMskPane.setVisible(false);
@@ -464,6 +509,8 @@ public class FichaPrenatalController {
             if(esNuevo) {
                 ficha = new FichaPrenatal();
                 ficha.setPaciente(paciente);
+                ficha.setId(UUID.randomUUID());
+                ficha.setFechaRegistro(LocalDateTime.now());
             }
 
             //Antecedente
@@ -653,6 +700,12 @@ public class FichaPrenatalController {
             hojaEvolucionController.listaItems.stream().forEach(x->x.setFichaPrenatal(ficha));
             ficha.setHojaEvolucionPrescripcionCollection(hojaEvolucionController.listaItems);
 
+            //archivos
+            archivoFichaController.archivoFichaPrenatalList.stream().forEach(x->{
+                x.setFichaPrenatal(ficha);
+                x.setRutaarchivo("\\"+ficha.getPaciente().getCedula()+"\\"+ficha.getId()+"\\"+x.getNombrearchivo());
+            });
+            ficha.setArchivoFichaPrenatalCollection(archivoFichaController.archivoFichaPrenatalList);
 
         ok= true;
 
@@ -665,6 +718,37 @@ public class FichaPrenatalController {
         return ok;
     }
 
+    private void copiarArchivos(Collection<ArchivoFichaPrenatal> ListaArchivos) {
+        Boolean ok =true;
+        EmpresaDao emp = new EmpresaDao();
+        Empresa e = emp.getEmpresaDatos();
+
+        if(e!=null) {
+            rutaCarpetaArchivos = e.getDirectorioarchivos();
+        }
+
+        ListaArchivos.stream().forEach(x -> {
+            try {
+                File f = new File(rutaCarpetaArchivos+x.getRutaarchivo());
+                f = new File(f.getPath());
+
+                if(x.getRutaarchivo() != null && x.getRutaarchivoorigen() !=null && !x.getCopiado() && Character.valueOf('A').equals(x.getEstado())) {
+
+                    Path origen = Paths.get(x.getRutaarchivoorigen());
+                    Path destino = Paths.get(rutaCarpetaArchivos+x.getRutaarchivo());
+                    if (!f.exists()) {
+                        f.mkdirs();
+                    }
+                    Files.copy(origen, destino, StandardCopyOption.REPLACE_EXISTING);
+                    x.setCopiado(true);
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                FxDialogs.showException("Error", "Ha ocurrido un error. Consulte mas en el detalle", ex);
+            }
+        });
+
+    }
 
 
 }

@@ -10,7 +10,7 @@ import java.util.UUID;
 @Entity
 public class ConsultaEmbarazo {
     @Id
-    @Column(columnDefinition = "uniqueidentifier")
+    @Column(columnDefinition = "uuid")
     private UUID id;
     private LocalDateTime fechaConsulta;
     private Integer semanasAmenorreas;

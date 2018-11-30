@@ -93,11 +93,15 @@ public class ConsultaEmbarazoController {
     public void initialize() {
 
         try{
+            btnGuardarConsulta.setText("Agregar");
+            btnGuardarConsulta.setDisable(true);
+            dtpFechaConsulta.setValue(LocalDate.now());
+
             iniciarCombos();
             iniciarValidadores();
             iniciarColumnas();
             gridPaneConsEmb.setDisable(true);
-            btnGuardarConsulta.setDisable(true);
+
 
             gridConsulta.setRowFactory(param -> {
                 TableRow<ConsultaEmbarazo> row = new TableRow<>();
@@ -132,7 +136,7 @@ public class ConsultaEmbarazoController {
         validationSupport.registerValidator(txtSemanaAmenorreas, Validator.createRegexValidator("Ingrese solo números.", Regex.NUMEROS.getExpresion(), Severity.ERROR));
         validationSupport.registerValidator(txtAltUterina, Validator.createRegexValidator("Ingrese solo números.", Regex.NUMEROS.getExpresion(), Severity.ERROR));
         validationSupport.registerValidator(txtPeso, Validator.createRegexValidator("Ingrese un número válido . Formato (##.##)", Regex.NUMERODECIMAL2.getExpresion(), Severity.ERROR));
-
+        validationSupport.registerValidator(dtpFechaConsulta,Validator.createEmptyValidator("Ingrese una fecha",Severity.ERROR));
         validationSupport.validationResultProperty().addListener( (o, oldValue, newValue) ->{
             validations.getValidationSupport().getRegisteredControls().stream().forEach(x -> x.setTooltip(null));
             validations.getValidationSupport().getValidationResult().getErrors().stream().forEach(x -> x.getTarget().setTooltip(new Tooltip(x.getText())));
@@ -211,12 +215,16 @@ public class ConsultaEmbarazoController {
     public void limpiarControles(){
 
         gridPaneConsEmb.getChildren().forEach(node -> Formularios.limpiarControles(node));
-
+        btnGuardarConsulta.setText("Agregar");
+        btnGuardarConsulta.setDisable(true);
+        gridPaneConsEmb.setDisable(true);
     }
     public void limpiarControlesYLista(){
 
         gridPaneConsEmb.getChildren().forEach(node -> Formularios.limpiarControles(node));
         consultaEmbarazoList.clear();
+        gridPaneConsEmb.setDisable(true);
+
     }
 
     public void NuevaConsultaEmb(){
@@ -225,6 +233,8 @@ public class ConsultaEmbarazoController {
         esNuevo=true;
         gridPaneConsEmb.setDisable(false);
         btnGuardarConsulta.setDisable(false);
+        btnGuardarConsulta.setText("Agregar");
+        dtpFechaConsulta.setValue(LocalDate.now());
 
     }
     public void guardarConsultaEmb(){
@@ -261,6 +271,7 @@ public class ConsultaEmbarazoController {
 
             gridPaneConsEmb.setDisable(true);
             btnGuardarConsulta.setDisable(true );
+            limpiarControles();
         }catch (Exception ex){
             FxDialogs.showException("Error","Ha ocurrido un error ver los dtalles",ex);
         }
@@ -288,6 +299,7 @@ public class ConsultaEmbarazoController {
             txtExaminador.setText(consultaEmb.getNombreExaminador());
             gridPaneConsEmb.setDisable(false);
             btnGuardarConsulta.setDisable(false);
+            btnGuardarConsulta.setText("Actualizar");
             esNuevo=false;
         }catch (Exception ex){
             FxDialogs.showException("Error","Ha ocurrido un error ver mas en los detalles",ex);

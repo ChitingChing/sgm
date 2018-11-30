@@ -14,7 +14,9 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 import org.controlsfx.control.NotificationPane;
 import org.hibernate.Session;
+import org.postgresql.util.PSQLException;
 import utilidades.ConnectionInfo;
+import utilidades.FxDialogs;
 import utilidades.SessionUtil;
 
 
@@ -33,7 +35,8 @@ public class Otros {
         ConnectionInfo info = new ConnectionInfo();
         try(Session session = SessionUtil.getSession()) {
             session.doWork(info);
-
+        }catch (Exception ex){
+            FxDialogs.showException("","",ex);
         }
         return  info;
 
@@ -52,8 +55,9 @@ public class Otros {
            lista= FXCollections.observableList(session.createQuery(query).getResultList());
 
            //lista =  query.list().stream().forEach(x-> x.g);
-        }catch (Exception ex){
+        } catch (Exception ex){
             System.out.println(ex.toString());
+            FxDialogs.showException("Error","Ha ocurrido un error",ex);
         }
         return lista;
     }
@@ -100,7 +104,7 @@ public class Otros {
             query.select(root).where(builder.equal(root.get("estado"),"A"),
                     builder.equal(root.get("provinciaByIdprovincia").get("id"),idProvincia))
                     .orderBy(builder.asc(root.get("descripcion")));
-            lista= FXCollections.observableArrayList(session.createQuery(query).getResultList());
+            lista= FXCollections.observableList(session.createQuery(query).getResultList());
         }catch (Exception ex){
             System.out.println(ex.toString());
         }

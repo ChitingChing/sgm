@@ -70,15 +70,20 @@ public class BusquedaPacienteController {
             Task<Void> tareaBuscar = new Task<Void>() {
                 @Override
                 protected Void call() throws Exception {
-                    if (!txtTextoBuscar.getText().trim().equals("")) {
+                  //  if (!txtTextoBuscar.getText().trim().equals("")) {
+                    try {
                         mskEsperar.setVisible(true);
                         PacienteDao pDao = new PacienteDao();
                         tblPaciente.setItems(pDao.getPacientesByCedNomApe(txtTextoBuscar.getText().trim()));
                         mskEsperar.setVisible(false);
+                    }catch (Exception ex){
+                        FxDialogs.showException("Error","Ha ocurrido un error",ex);
                     }
+                  //}
                     return null;
                 }
             };
+
 
             Thread threadGuardar = new Thread(tareaBuscar);
             threadGuardar.setDaemon(true);

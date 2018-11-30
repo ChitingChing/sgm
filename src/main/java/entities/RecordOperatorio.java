@@ -10,7 +10,7 @@ import java.util.UUID;
 @Entity
 public class RecordOperatorio {
     @Id
-    @Column(columnDefinition = "uniqueidentifier")
+    @Column(columnDefinition = "uuid")
     private UUID id;
     private String establecimiento ;
     private String localidad ;

@@ -1,5 +1,8 @@
 package Dao;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+import entities.ArchivoFichaPrenatal;
+import entities.Empresa;
 import entities.FichaPrenatal;
 import entities.Paciente;
 import javafx.collections.FXCollections;
@@ -14,26 +17,32 @@ import utilidades.SessionUtil;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.*;
+import java.util.Collection;
 import java.util.UUID;
 
 public class FichaPrenatalDao {
     private CriteriaBuilder builder;
     private CriteriaQuery<FichaPrenatal> query;
     private Root<FichaPrenatal> root;
+    private  String rutaCarpetaArchivos;
 
     public Boolean guardarFicha(FichaPrenatal ficha, Boolean insertar){
         Transaction tx=null;
         Boolean resultado=false;
         try(Session session = SessionUtil.getSession()) {
-            if(insertar) {
-                ficha.setId(UUID.randomUUID());
-            }
+           // if(insertar) {
+               // ficha.setId(UUID.randomUUID());
+           // }
+
             tx= session.beginTransaction();
             session.saveOrUpdate(ficha);
             tx.commit();
             resultado=true  ;
             session.refresh(ficha);
-        }catch (HibernateException ex){
+        }catch (Exception ex){
             tx.rollback();
             resultado=false ;
             FxDialogs.showException("Error","Ha ocurrido un error al guardar los datos",ex);
@@ -55,4 +64,7 @@ public class FichaPrenatalDao {
         }
         return fichas;
     }
+
+
+
 }

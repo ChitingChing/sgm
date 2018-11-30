@@ -15,9 +15,11 @@ public class SessionUtil {
     Logger logger = Logger.getLogger(this.getClass());
 
     private SessionUtil(){
-        StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
-                .configure().build();
-        factory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+
+            StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
+                    .configure().build();
+            factory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+
     }
 
     private static SessionUtil getInstance(){

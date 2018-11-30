@@ -8,7 +8,7 @@ import java.util.UUID;
 @Entity
 public class Patologia {
     @Id
-    @Column(columnDefinition = "uniqueidentifier")
+    @Column(columnDefinition = "uuid")
     private UUID id;
     private String descripcion;
     private String grupo;

@@ -8,7 +8,7 @@ import java.util.UUID;
 @Entity
 public class Empresa {
     @Id
-    @Column(columnDefinition = "uniqueidentifier")
+    @Column(columnDefinition = "uuid")
     private UUID id;
     private String ruc;
     private  String nombre;
@@ -16,6 +16,7 @@ public class Empresa {
     private String telefono1;
     private String telefono2;
     private String gerente;
+    private String directorioarchivos;
 
     public Empresa() {
     }
@@ -74,5 +75,13 @@ public class Empresa {
 
     public void setGerente(String gerente) {
         this.gerente = gerente;
+    }
+
+    public String getDirectorioarchivos() {
+        return directorioarchivos;
+    }
+
+    public void setDirectorioarchivos(String directorioarchivos) {
+        this.directorioarchivos = directorioarchivos;
     }
 }

@@ -2,15 +2,22 @@ package controllers;
 
 import entities.Canton;
 import entities.Provincia;
+import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import org.postgresql.util.PSQLException;
 import utilidades.ConnectionInfo;
 import utilidades.Formularios;
 import Dao.Otros;
+import utilidades.FxDialogs;
 
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.text.Normalizer;
 
 
@@ -25,10 +32,16 @@ public class InicioController {
 
     @FXML
     public void initialize(){
-        cargarDatos();
-        ConnectionInfo connectionInfo =Otros.getInfoConnection();
-       String info= "Host: "+  connectionInfo.dataBaseUrl + " Database: "+ connectionInfo.getDatabaseName() + " User: "+connectionInfo.getUsername();
-       lblConnectioninfo.setText(info);
+        try {
+
+            ConnectionInfo connectionInfo = Otros.getInfoConnection();
+            String info = "Conexión: " + connectionInfo.dataBaseUrl + " User: " + connectionInfo.getUsername();
+            lblConnectioninfo.setText(info);
+
+            cargarDatos();
+        }catch (Exception ex){
+            FxDialogs.showException("Error","No se ha podido iniciar la aplicacion",ex);
+        }
     }
 
     public void showBusquedaPaciente() throws IOException {
@@ -59,12 +72,15 @@ public class InicioController {
         f.showPrescripcion();
     }
 
-    private void cargarDatos(){
-
-        provincias=  Otros.getProvincias();
-        estadoCiviles = Otros.getEstadoCiviles();
-        estudios = Otros.getEstudios();
-        cantonesLosRios = Otros.getCantones("12");
+    private void cargarDatos() {
+        try {
+            provincias = Otros.getProvincias();
+            estadoCiviles = Otros.getEstadoCiviles();
+            estudios = Otros.getEstudios();
+            cantonesLosRios = Otros.getCantones("12");
+        } catch (Exception ex) {
+            FxDialogs.showException("Error", "No se ha podido iniciar la aplicacion", ex);
+        }
 
     }
 

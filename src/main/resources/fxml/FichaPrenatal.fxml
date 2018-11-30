@@ -7,6 +7,7 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
@@ -38,13 +39,13 @@
                            <children>
                               <Label text="Cédula:" />
                               <Label text="Apellidos y Nombres:" GridPane.rowIndex="1" />
-                              <Label text="N° Historia Laboral:" GridPane.rowIndex="2" />
-                              <CustomTextField fx:id="txtCedula" editable="false" GridPane.columnIndex="1" />
-                              <CustomTextField fx:id="txtApellidosNombres" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <CustomTextField fx:id="txtrNHistoriaLaboral" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                              <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#showPaciente" prefWidth="100.0" text="Paciente" GridPane.columnIndex="2">
+                              <Label text="N° Historia Clinica:" GridPane.rowIndex="2" />
+                              <CustomTextField fx:id="txtCedula" disable="true" editable="false" GridPane.columnIndex="1" />
+                              <CustomTextField fx:id="txtApellidosNombres" disable="true" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <CustomTextField fx:id="txtrNHistoriaLaboral" disable="true" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Button alignment="CENTER" contentDisplay="TOP" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#showPaciente" prefWidth="100.0" text="Paciente" wrapText="true" GridPane.columnIndex="2" GridPane.rowSpan="3">
                                  <graphic>
-                                    <FontAwesomeIconView glyphName="USER" size="14.0" />
+                                    <FontAwesomeIconView glyphName="USER" size="48" />
                                  </graphic>
                               </Button>
                            </children>
@@ -84,6 +85,11 @@
                   <Tab id="tabEgreso" fx:id="tabEgreso" text="Egreso" />
                   <Tab fx:id="tabPostOperatorio" text="Post Operatorio" />
                   <Tab id="tabEgreso" fx:id="tabHojaEvolucion" text="Hoja de Evolución" />
+                  <Tab id="tabArchivos" fx:id="tabArchivos" closable="false" text="Archivos">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    </content>
+                  </Tab>
               </tabs>
             </TabPane>
          </children>

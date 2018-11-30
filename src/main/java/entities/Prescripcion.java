@@ -9,7 +9,7 @@ import java.util.UUID;
 @Entity
 public class Prescripcion {
     @Id
-    @Column(columnDefinition = "uniqueidentifier")
+    @Column(columnDefinition = "uuid")
     private UUID id;
     private String observacion;
     private String medicamentos;

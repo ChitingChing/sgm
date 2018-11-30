@@ -9,7 +9,7 @@ import java.util.UUID;
 @Entity
 public class Puerperio {
     @Id
-    @Column(columnDefinition = "uniqueidentifier")
+    @Column(columnDefinition = "uuid")
     private UUID id;
     private LocalDate fechaPostParto;
     private String horaPostParto;

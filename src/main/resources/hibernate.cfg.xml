@@ -4,16 +4,20 @@
     "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
   <session-factory>
-    <property name="connection.url">jdbc:sqlserver://localhost\SQLEXPRESS;database=sgm;</property>
+<!--    <property name="connection.url">jdbc:sqlserver://localhost\SQLEXPRESS;database=sgm;</property>
     <property name="connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
-    <property name="dialect">org.hibernate.dialect.SQLServer2012Dialect</property>
-    <property name="connection.username">sa</property>
-    <property name="connection.password">sa</property>
+    <property name="dialect">org.hibernate.dialect.SQLServer2012Dialect</property>-->
+    <property name="connection.url">jdbc:postgresql://localhost:5432/sgm</property>
+    <property name="connection.driver_class">org.postgresql.Driver</property>
+    <property name="dialect">org.hibernate.dialect.PostgreSQL95Dialect</property>
+    <property name="connection.username">postgres</property>
+    <property name="connection.password">postgres</property>
     <property name="c3p0.timeout">30</property>
+      <property name="c3p0.setMaxPoolSize">50</property>
     <property name="show_sql">True</property>
     <property name="hibernate.enable_lazy_load_no_trans">True</property>
     <!-- DB schema will be updated if needed -->
-  <!--  <property name="hbm2ddl.auto">none</property> -->
+    <!--<property name="hbm2ddl.auto">create</property>-->
     <mapping class="entities.Provincia"/>
     <mapping class="entities.Canton"/>
     <mapping class="entities.Paciente"/>
@@ -25,5 +29,6 @@
     <mapping class="entities.Empresa"/>
     <mapping class="entities.Medicina"/>
     <mapping class="entities.HojaEvolucionPrescripcion"/>
+    <mapping class="entities.ArchivoFichaPrenatal"/>
   </session-factory>
 </hibernate-configuration>

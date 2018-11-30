@@ -1,5 +1,6 @@
 package entities;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -14,7 +15,7 @@ import java.util.UUID;
 @Entity
 public class FichaPrenatal {
     @Id
-    @Column(columnDefinition = "uniqueidentifier")
+    @Column(columnDefinition = "uuid")
     private UUID id;
     private LocalDateTime fechaRegistro;
     private Character estado;
@@ -177,6 +178,9 @@ public class FichaPrenatal {
     //Hoja Evolucion
     @OneToMany(mappedBy = "fichaPrenatal",cascade = CascadeType.ALL)
     private  Collection<HojaEvolucionPrescripcion> hojaEvolucionPrescripcionCollection;
+    //Archivos
+    @OneToMany(mappedBy = "fichaPrenatal",cascade = CascadeType.ALL)
+    private Collection<ArchivoFichaPrenatal> archivoFichaPrenatalCollection;
 
 /////
     @ManyToOne
@@ -1371,6 +1375,14 @@ public class FichaPrenatal {
         this.hojaEvolucionPrescripcionCollection = hojaEvolucionPrescripcionCollection;
     }
 
+    public Collection<ArchivoFichaPrenatal> getArchivoFichaPrenatalCollection() {
+        return archivoFichaPrenatalCollection;
+    }
+
+    public void setArchivoFichaPrenatalCollection(Collection<ArchivoFichaPrenatal> archivoFichaPrenatalCollection) {
+        this.archivoFichaPrenatalCollection = archivoFichaPrenatalCollection;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -1523,11 +1535,12 @@ public class FichaPrenatal {
                 Objects.equals(recOpExploHallazgosQui, that.recOpExploHallazgosQui) &&
                 Objects.equals(recOpProcedimientoOperatorio, that.recOpProcedimientoOperatorio) &&
                 Objects.equals(hojaEvolucionPrescripcionCollection, that.hojaEvolucionPrescripcionCollection) &&
+                Objects.equals(archivoFichaPrenatalCollection, that.archivoFichaPrenatalCollection) &&
                 Objects.equals(paciente, that.paciente);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, fechaRegistro, estado, anteFamiliares, antePersonales, anteOtros, anteNingunoOmasEmbarazos, anteRnMenor2500, anteGemelares, anteGestas, antePartos, anteAbortos, anteVaginales, anteCesareas, anteNacidosVivos, anteNacidosMuertos, anteViven, anteMuertos1Semana, anteMuertosmas1Semana, anteFechaFinAnteriorEmbarazo, anteRnMayorPeso, embPesoAnterior, embTalla, embFum, embFfp, embDudas, embAntitetanicaPrevia, embAntitetanicaMesGestaActual1, embAntitetanicaMesGestaActual2, embGrupoSanguineo, embRh, embSensibilidad, embGrupoSanguineoSensibilidad, embFuma, embCigarrilosPorDia, embHospitalizacion, embTraslado, embLugarTraslado, embExClinico, embExMamas, embExOdontologico, embExPelvis, embExPapanicolao, embExColposcopia, embExCervix, embVdrl, embFechaVdrl, embGlucosa, embFechaGlucosa, embHb1, embFechaHb1, embHb2, embFechaHb2, consultaEmbarazoCollection, partEsAborto, partOrigenParto, partConsultaPrenatal, partEnHospital, partCarnet, partFechaIngresoParto, partTemperaturaParto, partEdadGestacion, partMenor37, partMayor41, partPresentacion, partTamanoFetalAdecuado, partFechaTerminacion, partInicio, partMembranas, partFechaRuptura, partPatologias, partTerminacion, partFechaNacimiento, partIndicacionPrincipal, partMuerteIntegerraUt, partEpisiotomia, partDesgarro, partAlumbEspont, partPlacentaComp, partMedicacionParto, partNivelAtencion, partAtendioPartoNombre, partAtendioPartoCargo, partAtendioNeonatoNombre, partAtendioNeonatoCargo, partNombreRn, partHcRn, partMultiple, partOrden, partPatologiaspp, trabajoPartoCollection, rnSexo, rnPesoNacer, rnMenor2500g, rnTalla, rnPerCefalico, rnEdadPorExFisico, rnMenor37, rnPesoEdadGestacional, rnApgar1min, rnApgar5min, rnReaminRespir, rnVdrl, rnExamenFisico, rnPatologias, rnAlojConjunto, rnHospitalizado, rnBcg, rnPvo, rnGrupoSanguineo, rnRhh, rnObservaciones, puerperioCollection, egrFechaEgresoRn, egrEstadoRn, egrAlimento, egrPesoEgresoRn, egrResponsableEgresoRn, egrFechaEgresoMaterno, egrResponsableEgresoMaterno, egrAnticoncepcion, egrEstadoMaterno, recOpServicio, recOpSala, recOpCama, recOpPreoperatorio, recOpPostoperatorio, recOpProyectada, recOpTipoOperacion, recOpRealizada, recOpCirujano, recOpPrimerAyudante, recOpSegundoAyudante, recOpTercerAyudante, recOpInstrumentista, recOpCirculante, recOpAnestesia, recOpAyudanteAnestesia, recOpFechaOperacion, recOpHoraInicio, recOpHoraTerminacion, recOpTipoAnestesia, recOpDieresis, recOpExposicion, recOpExploHallazgosQui, recOpProcedimientoOperatorio, hojaEvolucionPrescripcionCollection, paciente);
+        return Objects.hash(id, fechaRegistro, estado, anteFamiliares, antePersonales, anteOtros, anteNingunoOmasEmbarazos, anteRnMenor2500, anteGemelares, anteGestas, antePartos, anteAbortos, anteVaginales, anteCesareas, anteNacidosVivos, anteNacidosMuertos, anteViven, anteMuertos1Semana, anteMuertosmas1Semana, anteFechaFinAnteriorEmbarazo, anteRnMayorPeso, embPesoAnterior, embTalla, embFum, embFfp, embDudas, embAntitetanicaPrevia, embAntitetanicaMesGestaActual1, embAntitetanicaMesGestaActual2, embGrupoSanguineo, embRh, embSensibilidad, embGrupoSanguineoSensibilidad, embFuma, embCigarrilosPorDia, embHospitalizacion, embTraslado, embLugarTraslado, embExClinico, embExMamas, embExOdontologico, embExPelvis, embExPapanicolao, embExColposcopia, embExCervix, embVdrl, embFechaVdrl, embGlucosa, embFechaGlucosa, embHb1, embFechaHb1, embHb2, embFechaHb2, consultaEmbarazoCollection, partEsAborto, partOrigenParto, partConsultaPrenatal, partEnHospital, partCarnet, partFechaIngresoParto, partTemperaturaParto, partEdadGestacion, partMenor37, partMayor41, partPresentacion, partTamanoFetalAdecuado, partFechaTerminacion, partInicio, partMembranas, partFechaRuptura, partPatologias, partTerminacion, partFechaNacimiento, partIndicacionPrincipal, partMuerteIntegerraUt, partEpisiotomia, partDesgarro, partAlumbEspont, partPlacentaComp, partMedicacionParto, partNivelAtencion, partAtendioPartoNombre, partAtendioPartoCargo, partAtendioNeonatoNombre, partAtendioNeonatoCargo, partNombreRn, partHcRn, partMultiple, partOrden, partPatologiaspp, trabajoPartoCollection, rnSexo, rnPesoNacer, rnMenor2500g, rnTalla, rnPerCefalico, rnEdadPorExFisico, rnMenor37, rnPesoEdadGestacional, rnApgar1min, rnApgar5min, rnReaminRespir, rnVdrl, rnExamenFisico, rnPatologias, rnAlojConjunto, rnHospitalizado, rnBcg, rnPvo, rnGrupoSanguineo, rnRhh, rnObservaciones, puerperioCollection, egrFechaEgresoRn, egrEstadoRn, egrAlimento, egrPesoEgresoRn, egrResponsableEgresoRn, egrFechaEgresoMaterno, egrResponsableEgresoMaterno, egrAnticoncepcion, egrEstadoMaterno, recOpServicio, recOpSala, recOpCama, recOpPreoperatorio, recOpPostoperatorio, recOpProyectada, recOpTipoOperacion, recOpRealizada, recOpCirujano, recOpPrimerAyudante, recOpSegundoAyudante, recOpTercerAyudante, recOpInstrumentista, recOpCirculante, recOpAnestesia, recOpAyudanteAnestesia, recOpFechaOperacion, recOpHoraInicio, recOpHoraTerminacion, recOpTipoAnestesia, recOpDieresis, recOpExposicion, recOpExploHallazgosQui, recOpProcedimientoOperatorio, hojaEvolucionPrescripcionCollection, archivoFichaPrenatalCollection, paciente);
     }
 }

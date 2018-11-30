@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 import utilidades.FxDialogs;
 import utilidades.SessionUtil;
@@ -34,15 +35,18 @@ public class PacienteDao  {
     }
     public ObservableList<Paciente> getPacientesByCedNomApe(String Texto){
         ObservableList<Paciente> pacientes = null;
-        Texto = "%"+Texto+"%";
+        Texto = "%"+Texto.toLowerCase()+"%";
         try(Session session = SessionUtil.getSession()) {
             builder = session.getCriteriaBuilder();
             query = builder.createQuery(Paciente.class);
             root = query.from(Paciente.class);
             query.select(root).where(builder.or(
-                    builder.like(root.get("cedula"),Texto),builder.like(root.get("primernombre"),Texto),
-                    builder.like(root.get("segundonombre"),Texto),builder.like(root.get("primerapellido"),Texto),
-                    builder.like(root.get("segundoapellido"),Texto))).
+                    builder.like(root.get("cedula"),Texto),
+                    builder.like(builder.lower(root.get("primernombre")),Texto),
+                    builder.like(builder.lower(root.get("segundonombre")),Texto),
+                    builder.like(builder.lower(root.get("primerapellido")),Texto),
+                    builder.like(builder.lower(root.get("segundoapellido")),Texto),
+                    builder.like(root.get("nhistoriaclinica"),Texto))).
                     orderBy(builder.desc(root.get("primerapellido")),builder.desc(root.get("segundoapellido")),
                             builder.desc(root.get("primernombre")));
           //  if (session.createQuery(query).getResultList().size() > 0)

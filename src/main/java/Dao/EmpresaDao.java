@@ -45,7 +45,7 @@ public class EmpresaDao {
             CriteriaQuery query = builder.createQuery(Empresa.class);
             Root<Empresa> root = query.from(Empresa.class);
             query.select(root);
-            e = (Empresa) session.createQuery(query).getSingleResult();
+            e = (Empresa) session.createQuery(query).stream().findFirst().orElse(null);
         }
         return e;
     }

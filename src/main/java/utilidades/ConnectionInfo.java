@@ -14,7 +14,7 @@ public class ConnectionInfo implements Work {
 
     @Override
     public void execute(Connection connection) throws SQLException {
-        dataBaseUrl = connection.getMetaData().getURL().substring(0,connection.getMetaData().getURL().indexOf(";"));
+        dataBaseUrl = connection.getMetaData().getURL().substring(connection.getMetaData().getURL().indexOf("//")+2);
         dataBaseProductName = connection.getMetaData().getDatabaseProductName();
         driverName = connection.getMetaData().getDriverName();
         username = connection.getMetaData().getUserName();

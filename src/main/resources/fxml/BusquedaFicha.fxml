@@ -12,7 +12,7 @@
    <children>
       <VBox alignment="TOP_CENTER" spacing="10.0">
          <children>
-            <Label styleClass="titulo" text="Búsqueda de Ficha prenatal" />
+            <Label styleClass="titulo" text="BUSQUEDEA DE FICHAS PRENATALES" />
             <HBox>
                <children>
                   <Label alignment="TOP_LEFT" text="Lista de Fichas Prenatales:" />

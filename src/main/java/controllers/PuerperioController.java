@@ -75,17 +75,19 @@ public class PuerperioController {
 
     public void initialize(){
         try{
+            btnGuardar.setText("Agregar");
+            btnGuardar.setDisable(true);
             dtpFechaPuerperio.setValue(LocalDate.now());
+
             iniciarCombos();
             iniciarValidadores();
             iniciarColumnas();
             gpanePuerperio.setDisable(true);
-            btnGuardar.setDisable(true);
 
             gridPuerperio.setRowFactory(param -> {
                 TableRow<Puerperio> row = new TableRow<>();
                 row.setOnMouseClicked(event -> {
-                    if(event.getClickCount()==2 && (!row.isEmpty())){
+                    if(event.getClickCount()==2 && (!row.isEmpty())) {
                         DatosAModificar(row.getItem());
                     }
                 });
@@ -158,10 +160,14 @@ public class PuerperioController {
 
    public void limpiarControles(){
        gpanePuerperio.getChildren().forEach(node -> Formularios.limpiarControles(node));
+       btnGuardar.setDisable(true);
+       btnGuardar.setText("Agregar");
+       gpanePuerperio.setDisable(true);
    }
     public void limpiarControlesYLista(){
         gpanePuerperio.getChildren().forEach(node -> Formularios.limpiarControles(node));
         puerperioList.clear();
+        gpanePuerperio.setDisable(true);
     }
 
     public void NuevaPuerperio(){
@@ -170,6 +176,8 @@ public class PuerperioController {
         esNuevo=true;
         gpanePuerperio.setDisable(false);
         btnGuardar.setDisable(false);
+        btnGuardar.setText("Agregar");
+        dtpFechaPuerperio.setValue(LocalDate.now());
     }
     public void guardarPuerperio(){
        try{
@@ -197,7 +205,7 @@ public class PuerperioController {
            gpanePuerperio.setDisable(true);
            btnGuardar.setDisable(true);
        }catch (Exception ex){
-           FxDialogs.showException("Error","Ha ocurrido un error ver los dtalles",ex);
+           FxDialogs.showException("Error","Ha ocurrido un error ver los detalles",ex);
        }
     }
     private void DatosAModificar(Puerperio item) {
@@ -213,6 +221,7 @@ public class PuerperioController {
            txtPulso.setText(item.getPulso());
            gpanePuerperio.setDisable(false);
            btnGuardar.setDisable(false);
+           btnGuardar.setText("Actualizar");
            esNuevo=false;
        }catch (Exception ex){
            FxDialogs.showException("Error","Ha ocurrido un error ver mas en los detalles",ex);

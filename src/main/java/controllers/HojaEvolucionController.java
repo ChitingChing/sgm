@@ -72,11 +72,14 @@ public class HojaEvolucionController {
     public void initialize(){
 
         try{
+            btnGuardar.setText("Agregar");
+            btnGuardar.setDisable(true);
             dtpFecha.setValue(LocalDate.now());
+
             iniciarValidadores();
             iniciarColumnas();
             containerControles.setDisable(true);
-            btnGuardar.setDisable(true);
+
 
             tblEvolucion.setRowFactory(param -> {
                 TableRow<HojaEvolucionPrescripcion> row = new TableRow<>();
@@ -137,6 +140,9 @@ public class HojaEvolucionController {
         txtEvolucion.clear();
         txtMedicamentos.clear();
         txtPrescripcion.clear();
+        btnGuardar.setDisable(true);
+        btnGuardar.setText("Agregar");
+        containerControles.setDisable(true);
     }
 
     public void limpiarControlesYLista(){
@@ -146,6 +152,7 @@ public class HojaEvolucionController {
         txtMedicamentos.clear();
         txtPrescripcion.clear();
         listaItems.clear();
+        containerControles.setDisable(true);
     }
 
     public void showBuscarMedicina() {
@@ -172,6 +179,8 @@ public class HojaEvolucionController {
         esNuevo=true;
         containerControles.setDisable(false);
         btnGuardar.setDisable(false);
+        btnGuardar.setText("Agregar");
+        dtpFecha.setValue(LocalDate.now());
     }
     public void guardar(){
         try{
@@ -221,6 +230,7 @@ public class HojaEvolucionController {
             txtPrescripcion.setText(item.getPrescripcion());
             containerControles.setDisable(false);
             btnGuardar.setDisable(false);
+            btnGuardar.setText("Actualizar");
             esNuevo=false;
         }catch (Exception ex){
             FxDialogs.showException("Error","Ha ocurrido un error ver mas en los detalles",ex);

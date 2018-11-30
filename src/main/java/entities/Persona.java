@@ -13,7 +13,7 @@ import java.util.UUID;
 @MappedSuperclass
 public class Persona {
     @Id
-    @Column(name = "id", columnDefinition = "uniqueidentifier")
+    @Column(name = "id", columnDefinition = "uuid")
     private UUID id;
 
     @Basic
