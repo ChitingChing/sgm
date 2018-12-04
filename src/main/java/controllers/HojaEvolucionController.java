@@ -1,5 +1,13 @@
 package controllers;
 
+import Dao.EmpresaDao;
+import com.itextpdf.html2pdf.ConverterProperties;
+import com.itextpdf.html2pdf.HtmlConverter;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.PageSize;
+import entities.Empresa;
 import entities.HojaEvolucionPrescripcion;
 import entities.Medicina;
 import javafx.collections.FXCollections;
@@ -7,7 +15,10 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
+import javafx.print.PageOrientation;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -22,7 +33,12 @@ import utilidades.FxDialogs;
 import utilidades.FxValidations;
 import utilidades.Regex;
 
+import java.awt.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -55,6 +71,9 @@ public class HojaEvolucionController {
 
     @FXML
     private Button btnEliminar;
+
+    @FXML
+    private  Button btnImprimir;
 
     @FXML
     private TableView<HojaEvolucionPrescripcion> tblEvolucion;
@@ -90,9 +109,45 @@ public class HojaEvolucionController {
                 });
                 return row;
             });
+
+            btnImprimir.setOnAction(event -> {
+                imprimirPrescripcion();
+            });
         }catch (Exception ex){
             FxDialogs.showException("Error","Ha ocurrido un error al cargar el formulario",ex);
         }
+    }
+
+    private void imprimirPrescripcion() {
+
+        try {
+            EmpresaDao edao = new EmpresaDao();
+            Empresa e = edao.getEmpresaDatos();
+            BufferedReader r = new BufferedReader(new FileReader(e.getDirectorioarchivos() + "\\" + "prescripcion.html"));
+            String str;
+            String content = "";
+            while ((str = r.readLine()) != null) {
+                content += str;
+            }
+            r.close();
+            File f = new File(e.getDirectorioarchivos()+"\\" + "prescripcion"+UUID.randomUUID()+".pdf");
+            String nombreApellidos = itemSeleccionado.getFichaPrenatal().getPaciente().getPrimernombre() + " " + itemSeleccionado.getFichaPrenatal().getPaciente().getPrimerapellido() + " " + itemSeleccionado.getFichaPrenatal().getPaciente().getSegundoapellido();
+            content = content.replace("paciente", nombreApellidos);
+            content = content.replace("fecha_emision", itemSeleccionado.getFecha().toString());
+            content = content.replace("medicina", itemSeleccionado.getMedicamentos());
+
+            content = content.replace("directoriologo-", e.getDirectorioarchivos() + "\\");
+            content = content.replace("prescripcion", itemSeleccionado.getPrescripcion());
+
+            content = content.replace("\n\n", "<br>");
+            HtmlConverter.convertToPdf(content, new PdfWriter(f));
+            Desktop.getDesktop().open(f);
+
+        }catch (Exception e) {
+            e.printStackTrace();
+            FxDialogs.showException("Error","Ha ocurrido un error",e);
+        }
+
     }
 
     private void iniciarValidadores() {
@@ -228,6 +283,7 @@ public class HojaEvolucionController {
             txtEvolucion.setText(item.getEvolucion());
             txtMedicamentos.setText(item.getMedicamentos());
             txtPrescripcion.setText(item.getPrescripcion());
+            itemSeleccionado = item;
             containerControles.setDisable(false);
             btnGuardar.setDisable(false);
             btnGuardar.setText("Actualizar");

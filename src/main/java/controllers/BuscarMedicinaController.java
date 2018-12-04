@@ -76,12 +76,12 @@ public class BuscarMedicinaController {
             Task<Void> tareaBuscar = new Task<Void>() {
                 @Override
                 protected Void call() throws Exception {
-                    if (!txtTextoBuscar.getText().trim().equals("")) {
+                    //if (!txtTextoBuscar.getText().trim().equals("")) {
                         mskEsperar.setVisible(true);
                         MedicinaDao mDao = new MedicinaDao();
                         tblMedicina.setItems(mDao.getMedicinaByNombre(txtTextoBuscar.getText().trim()));
                         mskEsperar.setVisible(false);
-                    }
+                   // }
                     return null;
                 }
             };

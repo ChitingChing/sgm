@@ -49,7 +49,7 @@ public class MedicinaDao {
             builder = session.getCriteriaBuilder();
             query = builder.createQuery(Medicina.class);
             root = query.from(Medicina.class);
-            query.select(root).where(builder.like(root.get("descripcion"), Nombre));
+            query.select(root).where(builder.like(builder.lower(root.get("descripcion")), Nombre));
             if (session.createQuery(query).getResultList().size() > 0)
                 p = session.createQuery(query).getSingleResult();
         }
@@ -62,7 +62,7 @@ public class MedicinaDao {
             builder = session.getCriteriaBuilder();
             query = builder.createQuery(Medicina.class);
             root = query.from(Medicina.class);
-            query.select(root).where(builder.like(root.get("descripcion"),Texto)).orderBy(builder.desc(root.get("descripcion")));
+            query.select(root).where(builder.like(builder.lower(root.get("descripcion")),Texto)).orderBy(builder.desc(root.get("descripcion")));
             //  if (session.createQuery(query).getResultList().size() > 0)
             list = FXCollections.observableArrayList(session.createQuery(query).getResultList());
         }

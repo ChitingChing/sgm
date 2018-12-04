@@ -45,8 +45,9 @@ public class PacienteDao  {
                     builder.like(builder.lower(root.get("primernombre")),Texto),
                     builder.like(builder.lower(root.get("segundonombre")),Texto),
                     builder.like(builder.lower(root.get("primerapellido")),Texto),
-                    builder.like(builder.lower(root.get("segundoapellido")),Texto),
-                    builder.like(root.get("nhistoriaclinica"),Texto))).
+                    builder.like(builder.lower(root.get("segundoapellido")),Texto)
+            //        builder.like(root.get("nhistoriaclinica"),Texto)
+                    )).
                     orderBy(builder.desc(root.get("primerapellido")),builder.desc(root.get("segundoapellido")),
                             builder.desc(root.get("primernombre")));
           //  if (session.createQuery(query).getResultList().size() > 0)
@@ -62,7 +63,7 @@ public class PacienteDao  {
             if(insertar) {
                 paciente.setId(UUID.randomUUID());
                 Integer nhistoriacli = getUltimoNHistoriaClinica();
-                paciente.setNhistoriaclinica(String.valueOf(nhistoriacli+1));
+                paciente.setNhistoriaclinica(nhistoriacli+1);
             }
              tx= session.beginTransaction();
             session.saveOrUpdate(paciente);

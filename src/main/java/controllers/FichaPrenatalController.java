@@ -439,7 +439,7 @@ public class FichaPrenatalController {
                     paciente.getPrimernombre().toUpperCase()+" "+paciente.getSegundonombre().toUpperCase();
             txtCedula.setText(paciente.getCedula());
             txtApellidosNombres.setText(apellidosNombres);
-            txtrNHistoriaLaboral.setText(paciente.getNhistoriaclinica());
+            txtrNHistoriaLaboral.setText(paciente.getNhistoriaclinica().toString());
             btnNuevo.setDisable(false);
             btnGuardar.setDisable(false);
             btnBuscarficha.setDisable(false);
@@ -703,7 +703,7 @@ public class FichaPrenatalController {
             //archivos
             archivoFichaController.archivoFichaPrenatalList.stream().forEach(x->{
                 x.setFichaPrenatal(ficha);
-                x.setRutaarchivo("\\"+ficha.getPaciente().getCedula()+"\\"+ficha.getId()+"\\"+x.getNombrearchivo());
+                x.setRutaarchivo("\\"+ficha.getPaciente().getId()+"\\"+ficha.getId()+"\\"+x.getNombrearchivo());
             });
             ficha.setArchivoFichaPrenatalCollection(archivoFichaController.archivoFichaPrenatalList);
 

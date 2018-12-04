@@ -29,6 +29,11 @@
                                     <FontAwesomeIconView glyphName="SEARCH" />
                                  </graphic>
                               </Button>
+                        <Button fx:id="btnImprimir" mnemonicParsing="false" text="Imprimir">
+                           <graphic>
+                              <FontAwesomeIconView glyphName="PRINT" />
+                           </graphic>
+                        </Button>
                            </children>
                         </HBox>
                         <HBox maxHeight="150.0" spacing="10.0">

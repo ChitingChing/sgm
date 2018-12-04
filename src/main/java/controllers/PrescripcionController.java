@@ -12,14 +12,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.StackPane;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
-import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
-import net.sf.jasperreports.export.SimplePdfExporterConfiguration;
-import net.sf.jasperreports.view.JasperViewer;
 import org.controlsfx.control.MaskerPane;
 import org.controlsfx.control.NotificationPane;
 import org.controlsfx.control.textfield.CustomTextField;
@@ -80,10 +72,7 @@ public class PrescripcionController {
 
     public void ShowBuscar() {
     }
-    public void imprimir() throws JRException {
 
-
-    }
 
     public void Guardar() {
 
@@ -165,7 +154,7 @@ public class PrescripcionController {
                     paciente.getPrimernombre().toUpperCase()+" "+paciente.getSegundonombre().toUpperCase();
             txtCedula.setText(paciente.getCedula());
             txtApellidosNombres.setText(apellidosNombres);
-            txtrNHistoriaLaboral.setText(paciente.getNhistoriaclinica());
+            txtrNHistoriaLaboral.setText(paciente.getNhistoriaclinica().toString());
             btnNuevo.setDisable(false);
             btnGuardar.setDisable(false);
            // btnBuscar.setDisable(false);

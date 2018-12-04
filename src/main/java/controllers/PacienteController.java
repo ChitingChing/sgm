@@ -225,7 +225,7 @@ public class PacienteController {
                 Otros o = new Otros();
                 notPane = (NotificationPane) stackContainer.getParent();
                 if(tareaGuardar.getValue()) {
-                    txtNHistoriaclinica.setText(paciente.getNhistoriaclinica());
+                    txtNHistoriaclinica.setText(paciente.getNhistoriaclinica().toString());
                     nuevo = false;
                     txtCedula.setDisable(true);
                     o.showNotificacionPane(notPane, "Datos guardados correctamente.",true  );
@@ -300,9 +300,9 @@ public class PacienteController {
                 Otros o = new Otros();
                 nuevo = false;
                 gridPaneControles.setDisable(false);
-                txtCedula.setDisable(true);
+                //txtCedula.setDisable(true);
                 txtCedula.setText(p.getCedula());
-                txtNHistoriaclinica.setText(p.getNhistoriaclinica());
+                txtNHistoriaclinica.setText(p.getNhistoriaclinica().toString());
                 txtPrimerApellido.setText(p.getPrimerapellido());
                 txtSegundoApellido.setText(p.getSegundoapellido());
                 txtPrimerNombre.setText(p.getPrimernombre());

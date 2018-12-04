@@ -10,7 +10,7 @@ import java.util.Objects;
 public class Paciente extends Persona {
     @Basic
     @Column(name = "nhistoriaclinica")
-    private String nhistoriaclinica;
+    private Integer nhistoriaclinica;
 
     @OneToMany(mappedBy = "paciente")
     private Collection<FichaPrenatal> fichaPrenatalCollection;
@@ -27,11 +27,11 @@ public class Paciente extends Persona {
     }
 
 
-    public String getNhistoriaclinica() {
+    public Integer getNhistoriaclinica() {
         return nhistoriaclinica;
     }
 
-    public void setNhistoriaclinica(String nhistoriaclinica) {
+    public void setNhistoriaclinica(Integer nhistoriaclinica) {
         this.nhistoriaclinica = nhistoriaclinica;
     }
 
