@@ -22,7 +22,7 @@ public class RecordOperatorio {
     private String proyectada  ;
     private Boolean efectiva ;
     private Boolean emergencia ;
-    private Bool paleativa ;
+    private Boolean paleativa ;
     private String realizada ;
     private String cirujano ;
     private String primerAyudante ;

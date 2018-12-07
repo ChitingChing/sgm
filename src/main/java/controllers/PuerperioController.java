@@ -11,15 +11,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
-import org.controlsfx.control.spreadsheet.Grid;
+
 import org.controlsfx.control.textfield.CustomTextField;
 import org.controlsfx.validation.Severity;
 import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
-import utilidades.Formularios;
-import utilidades.FxDialogs;
-import utilidades.FxValidations;
-import utilidades.Regex;
+import utilidades.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -102,6 +99,11 @@ public class PuerperioController {
 
 
     private void iniciarColumnas() {
+
+        TableUtils.installCopyPasteHandler(gridPuerperio);
+        gridPuerperio.getSelectionModel().setCellSelectionEnabled(true);
+        gridPuerperio.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
         List<TableColumn<Puerperio,String>> columnas = new ArrayList<>();
 
         TableColumn<Puerperio,String> colFecha =new TableColumn<>("Fecha");

@@ -5,15 +5,13 @@ import entities.FichaPrenatal;
 import entities.Puerperio;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 import net.bytebuddy.asm.Advice;
 import org.controlsfx.control.MaskerPane;
 import utilidades.FxDialogs;
+import utilidades.TableUtils;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -39,7 +37,9 @@ public class BusquedaFichaController {
     }
 
     private void iniciarColumnas() {
-
+        TableUtils.installCopyPasteHandler(tblFicha);
+        tblFicha.getSelectionModel().setCellSelectionEnabled(true);
+        tblFicha.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         List<TableColumn<FichaPrenatal,?>> columnas = new ArrayList<>();
 

@@ -19,7 +19,7 @@ import org.controlsfx.control.textfield.CustomTextField;
 import utilidades.Formularios;
 import utilidades.FxDialogs;
 
-import javax.xml.soap.AttachmentPart;
+//import javax.xml.soap.AttachmentPart;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -430,31 +430,40 @@ public class FichaPrenatalController {
     }
 
     public void showPaciente(){
-         esperaMskPane.setVisible(true);
-         Formularios f = new Formularios();
-         paciente= f.showBusquedaPaciente();
-        if(paciente!=null){
-            //panelFicha.setDisable(false);
-            String apellidosNombres =paciente.getPrimerapellido().toUpperCase() +" "+paciente.getSegundoapellido().toUpperCase() + " "+
-                    paciente.getPrimernombre().toUpperCase()+" "+paciente.getSegundonombre().toUpperCase();
-            txtCedula.setText(paciente.getCedula());
-            txtApellidosNombres.setText(apellidosNombres);
-            txtrNHistoriaLaboral.setText(paciente.getNhistoriaclinica().toString());
-            btnNuevo.setDisable(false);
-            btnGuardar.setDisable(false);
-            btnBuscarficha.setDisable(false);
+        try {
+            esperaMskPane.setVisible(true);
+            Formularios f = new Formularios();
+            paciente = f.showBusquedaPaciente();
+            if (paciente != null) {
+                String apellidosNombres = (paciente.getPrimerapellido().isEmpty())?"":paciente.getPrimerapellido();
+                apellidosNombres += " "+ ((paciente.getSegundoapellido().isEmpty())?"":paciente.getSegundoapellido());
+                apellidosNombres += " "+ ((paciente.getPrimernombre().isEmpty())?"":paciente.getPrimernombre());
+                apellidosNombres += " "+ ((paciente.getSegundonombre().isEmpty())?"":paciente.getSegundonombre());
 
-        }else{
-            txtCedula.clear();
-            txtrNHistoriaLaboral.clear();
-            txtApellidosNombres.clear();
-            btnNuevo.setDisable(true);
-            btnGuardar.setDisable(true);
-            btnBuscarficha.setDisable(true);
+                txtCedula.setText(paciente.getCedula());
+                txtApellidosNombres.setText(apellidosNombres.toLowerCase());
+                txtrNHistoriaLaboral.setText(paciente.getNhistoriaclinica().toString());
+                btnNuevo.setDisable(false);
+                btnGuardar.setDisable(false);
+                btnBuscarficha.setDisable(false);
+
+            } else {
+                txtCedula.clear();
+                txtrNHistoriaLaboral.clear();
+                txtApellidosNombres.clear();
+                btnNuevo.setDisable(true);
+                btnGuardar.setDisable(true);
+                btnBuscarficha.setDisable(true);
+            }
+            panelFicha.setDisable(true);
+            esNuevo = true;
+            limpiarControles();
+
+        }catch (NullPointerException ex){
+            FxDialogs.showException("Error","Ha ocurrido un error. Favor revisar los datos del paciente.",ex);
+        }catch (Exception ex){
+            FxDialogs.showException("Error","Ha ocurrido un error inesperado.",ex);
         }
-        panelFicha.setDisable(true);
-        esNuevo=true;
-        limpiarControles();
         esperaMskPane.setVisible(false);
     }
     public void guardarFicha(){

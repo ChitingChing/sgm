@@ -1,6 +1,6 @@
 package entities;
 
-import com.sun.xml.internal.fastinfoset.algorithm.BooleanEncodingAlgorithm;
+//import com.sun.xml.internal.fastinfoset.algorithm.BooleanEncodingAlgorithm;
 
 import javax.persistence.*;
 import java.util.Objects;

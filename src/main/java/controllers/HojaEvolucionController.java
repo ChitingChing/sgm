@@ -28,10 +28,7 @@ import org.controlsfx.control.textfield.CustomTextField;
 import org.controlsfx.validation.Severity;
 import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
-import utilidades.Formularios;
-import utilidades.FxDialogs;
-import utilidades.FxValidations;
-import utilidades.Regex;
+import utilidades.*;
 
 import java.awt.*;
 import java.io.BufferedReader;
@@ -161,6 +158,11 @@ public class HojaEvolucionController {
     }
 
     private void iniciarColumnas() {
+
+        TableUtils.installCopyPasteHandler(tblEvolucion);
+        tblEvolucion.getSelectionModel().setCellSelectionEnabled(true);
+        tblEvolucion.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
         List<TableColumn<HojaEvolucionPrescripcion,?>> columnas = new ArrayList<>();
 
         TableColumn<HojaEvolucionPrescripcion, LocalDate> colFecha =new TableColumn<>("Fecha");

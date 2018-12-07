@@ -9,10 +9,8 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Arc;
@@ -20,6 +18,7 @@ import javafx.stage.FileChooser;
 import org.controlsfx.control.textfield.CustomTextField;
 import utilidades.Formularios;
 import utilidades.FxDialogs;
+import utilidades.TableUtils;
 
 import java.awt.*;
 import java.io.File;
@@ -105,6 +104,10 @@ public class ArchivoFichaPrenatalController {
     }
 
     private void iniciarColumnas(){
+        TableUtils.installCopyPasteHandler(tblArchivos);
+        tblArchivos.getSelectionModel().setCellSelectionEnabled(true);
+        tblArchivos.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
         List<TableColumn<ArchivoFichaPrenatal,String>> columnas = new ArrayList<>();
 
         TableColumn<ArchivoFichaPrenatal,String> colNombre =new TableColumn<>("Nombre del Archivo");

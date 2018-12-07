@@ -5,15 +5,14 @@ import Dao.PacienteDao;
 import entities.Paciente;
 import javafx.concurrent.Task;
 import javafx.scene.Scene;
-import javafx.scene.control.Control;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import jdk.internal.dynalink.linker.TypeBasedGuardingDynamicLinker;
 import org.controlsfx.control.MaskerPane;
 import org.controlsfx.control.textfield.CustomTextField;
 import utilidades.FxDialogs;
+import utilidades.TableUtils;
 
 import java.time.LocalDate;
 
@@ -33,6 +32,10 @@ public class BusquedaPacienteController {
 
 
     public void initialize(){
+
+        TableUtils.installCopyPasteHandler(tblPaciente);
+        tblPaciente.getSelectionModel().setCellSelectionEnabled(true);
+        tblPaciente.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         mskEsperar.setVisible(false);
         colCedula.setCellValueFactory(new PropertyValueFactory<Paciente,String>("cedula"));
@@ -61,6 +64,8 @@ public class BusquedaPacienteController {
            return row;
        });
 
+
+
     }
 
 
@@ -71,18 +76,25 @@ public class BusquedaPacienteController {
                 @Override
                 protected Void call() throws Exception {
                   //  if (!txtTextoBuscar.getText().trim().equals("")) {
-                    try {
+
                         mskEsperar.setVisible(true);
                         PacienteDao pDao = new PacienteDao();
                         tblPaciente.setItems(pDao.getPacientesByCedNomApe(txtTextoBuscar.getText().trim()));
-                        mskEsperar.setVisible(false);
-                    }catch (Exception ex){
-                        FxDialogs.showException("Error","Ha ocurrido un error",ex);
-                    }
+
+
                   //}
                     return null;
                 }
             };
+
+            tareaBuscar.setOnSucceeded(event -> {
+                mskEsperar.setVisible(false);
+            });
+
+            tareaBuscar.setOnFailed(event -> {
+                FxDialogs.showException("Error","Ha ocurrido un error",new Exception(event.getSource().getException()));
+                mskEsperar.setVisible(false);
+            });
 
 
             Thread threadGuardar = new Thread(tareaBuscar);

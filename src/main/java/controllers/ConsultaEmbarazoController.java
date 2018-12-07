@@ -17,10 +17,7 @@ import org.controlsfx.control.textfield.CustomTextField;
 import org.controlsfx.validation.Severity;
 import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
-import utilidades.Formularios;
-import utilidades.FxDialogs;
-import utilidades.FxValidations;
-import utilidades.Regex;
+import utilidades.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -146,6 +143,10 @@ public class ConsultaEmbarazoController {
     }
 
     private void iniciarColumnas(){
+
+        TableUtils.installCopyPasteHandler(gridConsulta);
+        gridConsulta.getSelectionModel().setCellSelectionEnabled(true);
+        gridConsulta.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         List<TableColumn<ConsultaEmbarazo,String>> columnas = new ArrayList<>();
 

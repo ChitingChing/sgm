@@ -181,8 +181,9 @@ public class PacienteController {
                FxDialogs.showInformation("Error al ingresar datos", "Revise los errores antes de continuar.");
                return;
            }
-            paciente= existePaciente(txtCedula.getText().trim());
-            if(paciente!=null && nuevo){
+
+
+            if(existePaciente(txtCedula.getText().trim())){
                 FxDialogs.showError("Cédula ya se encuentra registrada.","Ya se encuentra registrada esta cédula. Favor ingresar otra.");
                 return;
             }
@@ -198,13 +199,17 @@ public class PacienteController {
             paciente.setSegundoapellido(txtSegundoApellido.getText().trim());
             paciente.setLocalidad(txtLocalidad.getText().trim());
             paciente.setDireccion(txtDireccion.getText().trim());
-            paciente.setProvincia(cmbProvincia.getSelectionModel().getSelectedItem().getId());
-            paciente.setCanton(cmbCanton.getSelectionModel().getSelectedItem().getId());
+            if(cmbProvincia.getSelectionModel().getSelectedItem()!=null)
+                paciente.setProvincia(cmbProvincia.getSelectionModel().getSelectedItem().getId());
+            if(cmbCanton.getSelectionModel().getSelectedItem()!=null)
+                paciente.setCanton(cmbCanton.getSelectionModel().getSelectedItem().getId());
             paciente.setFechanacimiento(dtpFechaNac.getValue());
             paciente.setEmail(txtEmail.getText().trim());
             paciente.setCelular(txtCelular.getText().trim());
-            paciente.setEstadocivil(cmbEstadoCivil.getSelectionModel().getSelectedItem());
-            paciente.setEstudios(cmbEstudios.getSelectionModel().getSelectedItem());
+            if(cmbEstadoCivil.getSelectionModel().getSelectedItem()!=null)
+                paciente.setEstadocivil(cmbEstadoCivil.getSelectionModel().getSelectedItem());
+            if(cmbEstudios.getSelectionModel().getSelectedItem()!=null)
+                paciente.setEstudios(cmbEstudios.getSelectionModel().getSelectedItem());
             paciente.setAlfabeta(chkAlfabeta.selectedProperty().getValue());
             PacienteDao pDao = new PacienteDao();
 
@@ -222,17 +227,26 @@ public class PacienteController {
             };
 
             tareaGuardar.setOnSucceeded(e->{
-                Otros o = new Otros();
-                notPane = (NotificationPane) stackContainer.getParent();
-                if(tareaGuardar.getValue()) {
-                    txtNHistoriaclinica.setText(paciente.getNhistoriaclinica().toString());
-                    nuevo = false;
-                    txtCedula.setDisable(true);
-                    o.showNotificacionPane(notPane, "Datos guardados correctamente.",true  );
-                }else{
-                    o.showNotificacionPane(notPane, "No se pudo guardar los datos.",false  );
+                try {
+                    Otros o = new Otros();
+                    notPane = (NotificationPane) stackContainer.getParent();
+                    if (tareaGuardar.getValue()) {
+                        txtNHistoriaclinica.setText(paciente.getNhistoriaclinica().toString());
+                        nuevo = false;
+                       // txtCedula.setDisable(true);
+                        o.showNotificacionPane(notPane, "Datos guardados correctamente.", true);
+                    } else {
+                        o.showNotificacionPane(notPane, "No se pudo guardar los datos.", false);
+                    }
+
+                }catch (Exception ex){
+                    FxDialogs.showException("Error","Ha ocurrido un error al guardar.",ex);
                 }
                 esperaMskPane.setVisible(false);
+            });
+
+            tareaGuardar.setOnFailed(event -> {
+               FxDialogs.showInformation("Error","Ha ocurrido un error al guardar. "+event.getSource().getException().getMessage());
             });
 
             Thread threadGuardar = new Thread(tareaGuardar);
@@ -254,12 +268,12 @@ public class PacienteController {
         btnGuardar.setDisable(false);
     }
 
-    private Paciente existePaciente(String Cedula){
+    private Boolean existePaciente(String Cedula){
         Boolean existe = false;
         PacienteDao pDao = new PacienteDao();
-        Paciente p = pDao.getPaciente(Cedula);
-
-       return p;
+        if(pDao.getPacientes(Cedula).size()>=1)
+            existe=true;
+       return existe;
     }
     private void limpiarControles(){
        txtCedula.setDisable(false);
@@ -282,41 +296,46 @@ public class PacienteController {
     }
 
     public void getCantonesProvincia(){
+        //al elegir en combo provincia
         cmbCanton.getItems().clear();
-        cmbCanton.getItems().setAll(Otros.getCantones(cmbProvincia.getSelectionModel().getSelectedItem().getId()));
-        cmbCanton.getSelectionModel().select(0);
+        if(!cmbProvincia.getSelectionModel().isEmpty()) {
+            cmbCanton.getItems().setAll(Otros.getCantones(cmbProvincia.getSelectionModel().getSelectedItem().getId()));
+            cmbCanton.getSelectionModel().select(0);
+        }
     }
 
     public void showBuscarPaciente(){
 
         esperaMskPane.setVisible(true);
         Formularios f = new Formularios();
-        cargarDatos(f.showBusquedaPaciente());
+        paciente= cargarDatos(f.showBusquedaPaciente());
         esperaMskPane.setVisible(false);
     }
-    public  void cargarDatos(Paciente p) {
+    public Paciente cargarDatos(Paciente p) {
        try {
             if(p!=null){
                 Otros o = new Otros();
                 nuevo = false;
                 gridPaneControles.setDisable(false);
                 //txtCedula.setDisable(true);
-                txtCedula.setText(p.getCedula());
-                txtNHistoriaclinica.setText(p.getNhistoriaclinica().toString());
-                txtPrimerApellido.setText(p.getPrimerapellido());
-                txtSegundoApellido.setText(p.getSegundoapellido());
-                txtPrimerNombre.setText(p.getPrimernombre());
-                txtSegundonombre.setText(p.getSegundonombre());
-                txtLocalidad.setText(p.getLocalidad());
-                txtDireccion.setText(p.getDireccion());
-                txtEmail.setText(p.getEmail());
-                txtCelular.setText(p.getCelular());
-                cmbProvincia.getSelectionModel().select(o.getProvincia(p.getProvincia()));
-                cmbCanton.getSelectionModel().select(o.getCanton(p.getCanton()));
+                txtCedula.setText((p.getCedula() == null) ? "":p.getCedula());
+                txtNHistoriaclinica.setText((p.getNhistoriaclinica()==null)?"": p.getNhistoriaclinica().toString());
+                txtPrimerApellido.setText((p.getPrimerapellido()==null)?"":p.getPrimerapellido());
+                txtSegundoApellido.setText((p.getSegundoapellido()==null)?"":p.getSegundoapellido());
+                txtPrimerNombre.setText((p.getPrimernombre()==null)?"":p.getPrimernombre());
+                txtSegundonombre.setText((p.getSegundonombre()==null)?"":p.getSegundonombre());
+                txtLocalidad.setText((p.getLocalidad()==null)?"":p.getLocalidad());
+                txtDireccion.setText((p.getDireccion()==null)?"":p.getDireccion());
+                txtEmail.setText((p.getEmail()==null)?"":p.getEmail());
+                txtCelular.setText((p.getCelular()==null)?"":p.getCelular());
+                if(p.getProvincia()!=null)
+                    cmbProvincia.getSelectionModel().select(o.getProvincia((p.getProvincia())));
+                if(p.getCanton()!=null)
+                    cmbCanton.getSelectionModel().select(o.getCanton(p.getCanton()));
                 dtpFechaNac.setValue(p.getFechanacimiento());
-                cmbEstadoCivil.getSelectionModel().select(p.getEstadocivil());
-                cmbEstudios.getSelectionModel().select(p.getEstudios());
-                chkAlfabeta.setSelected(p.getAlfabeta());
+                cmbEstadoCivil.getSelectionModel().select((p.getEstadocivil()==null)?"":p.getEstadocivil());
+                cmbEstudios.getSelectionModel().select((p.getEstudios()==null)?"":p.getEstudios());
+                chkAlfabeta.setSelected((p.getAlfabeta()==null)?false:p.getAlfabeta());
                 btnGuardar.setDisable(false);
             }else{
                 limpiarControles();
@@ -325,6 +344,6 @@ public class PacienteController {
        }catch   (Exception e){
            FxDialogs.showException("Error","Error al cargar datos",e);
        }
-
+        return p;
     }
 }

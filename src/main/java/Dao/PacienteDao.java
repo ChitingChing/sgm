@@ -14,6 +14,8 @@ import utilidades.SessionUtil;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class PacienteDao  {
@@ -21,17 +23,16 @@ public class PacienteDao  {
     private  CriteriaBuilder builder;
     private CriteriaQuery<Paciente> query;
     private Root<Paciente> root;
-    public Paciente getPaciente(String Cedula){
-        Paciente p = null;
+    public List<Paciente> getPacientes(String Cedula){
+        List<Paciente> pList = new ArrayList<>();
         try(Session session = SessionUtil.getSession()) {
             builder = session.getCriteriaBuilder();
             query = builder.createQuery(Paciente.class);
             root = query.from(Paciente.class);
             query.select(root).where(builder.equal(root.get("cedula"), Cedula));
-            if (session.createQuery(query).getResultList().size() > 0)
-                p = session.createQuery(query).getSingleResult();
+            pList = session.createQuery(query).getResultList();
         }
-        return p;
+        return pList;
     }
     public ObservableList<Paciente> getPacientesByCedNomApe(String Texto){
         ObservableList<Paciente> pacientes = null;
@@ -41,15 +42,59 @@ public class PacienteDao  {
             query = builder.createQuery(Paciente.class);
             root = query.from(Paciente.class);
             query.select(root).where(builder.or(
+                    builder.like(root.get("nhistoriaclinica").as(String.class),Texto),
                     builder.like(root.get("cedula"),Texto),
                     builder.like(builder.lower(root.get("primernombre")),Texto),
                     builder.like(builder.lower(root.get("segundonombre")),Texto),
                     builder.like(builder.lower(root.get("primerapellido")),Texto),
-                    builder.like(builder.lower(root.get("segundoapellido")),Texto)
-            //        builder.like(root.get("nhistoriaclinica"),Texto)
-                    )).
-                    orderBy(builder.desc(root.get("primerapellido")),builder.desc(root.get("segundoapellido")),
-                            builder.desc(root.get("primernombre")));
+                    builder.like(builder.lower(root.get("segundoapellido")),Texto),
+                    builder.like(builder.lower(
+                                    builder.concat(
+                                        builder.concat(
+                                            builder.concat(root.get("primerapellido")," "),
+                                            builder.concat(root.get("segundoapellido")," ")
+                                        ),
+                                        builder.concat(
+                                            builder.concat(root.get("primernombre")," "),
+                                            builder.concat(root.get("segundonombre"),"")
+                                        )
+                                    )
+                    ),Texto),
+                    builder.like(builder.lower(
+                            builder.concat(
+                                    builder.concat(
+                                            builder.concat(root.get("primernombre")," "),
+                                            builder.concat(root.get("segundonombre"),"")
+                                    ),
+                                    builder.concat(
+                                            builder.concat(root.get("primerapellido")," "),
+                                            builder.concat(root.get("segundoapellido")," ")
+                                    )
+                            )
+                    ),Texto),
+                    builder.like(builder.lower(
+                            builder.concat(
+                                    builder.concat(
+                                            builder.concat(root.get("primernombre")," "),
+                                            builder.concat(root.get("primerapellido"),"")
+                                    ),
+                                    builder.concat(root.get("segundoapellido")," ")
+                            )
+                    ),Texto),
+                    builder.like(builder.lower(
+                            builder.concat(
+                                    builder.concat(root.get("primernombre")," "),
+                                    builder.concat(root.get("primerapellido"),"")
+                            )
+                    ),Texto),
+                    builder.like(builder.lower(
+                            builder.concat(
+                                    builder.concat(root.get("primerapellido")," "),
+                                    builder.concat(root.get("primernombre"),"")
+                            )
+                    ),Texto)
+            )).orderBy(builder.desc(root.get("primerapellido")),builder.desc(root.get("segundoapellido")),
+                       builder.desc(root.get("primernombre")));
           //  if (session.createQuery(query).getResultList().size() > 0)
                 pacientes = FXCollections.observableArrayList(session.createQuery(query).getResultList());
         }

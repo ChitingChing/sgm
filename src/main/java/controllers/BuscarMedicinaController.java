@@ -5,14 +5,12 @@ import entities.Medicina;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.controlsfx.control.MaskerPane;
 import org.controlsfx.control.textfield.CustomTextField;
 import utilidades.FxDialogs;
+import utilidades.TableUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +41,11 @@ public class BuscarMedicinaController {
     }
 
     private void iniciarColumnas() {
+
+        TableUtils.installCopyPasteHandler(tblMedicina);
+        tblMedicina.getSelectionModel().setCellSelectionEnabled(true);
+        tblMedicina.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
         List<TableColumn<Medicina, String>> columnas = new ArrayList<>();
         TableColumn<Medicina, String> colDescripcion = new TableColumn<>("Descripción");
         colDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));

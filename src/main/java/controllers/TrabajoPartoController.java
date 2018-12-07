@@ -17,10 +17,7 @@ import org.controlsfx.control.textfield.CustomTextField;
 import org.controlsfx.validation.Severity;
 import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
-import utilidades.Formularios;
-import utilidades.FxDialogs;
-import utilidades.FxValidations;
-import utilidades.Regex;
+import utilidades.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -132,6 +129,9 @@ public class TrabajoPartoController {
     }
 
     private void iniciarColumnas(){
+        TableUtils.installCopyPasteHandler(tblTrabParto);
+        tblTrabParto.getSelectionModel().setCellSelectionEnabled(true);
+        tblTrabParto.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         List<TableColumn<TrabajoParto,String>> columnas = new ArrayList<>();
 
@@ -220,6 +220,8 @@ public class TrabajoPartoController {
                 return;
             }
             trabajoParto.setEstado('A');
+            if(txtHoraTrabParto.getText().isEmpty())
+                txtHoraTrabParto.setText("00:00");
             LocalDateTime fecha= LocalDateTime.of(dtpFechaTrabParto.getValue(), LocalTime.parse(txtHoraTrabParto.getText().trim()));
             trabajoParto.setFechaHora(fecha);
             trabajoParto.setTensionArterial(txtTensionArterial.getText().trim());

@@ -2,7 +2,7 @@ package controllers;
 
 import Dao.MedicinaDao;
 import Dao.Otros;
-import com.sun.org.apache.xpath.internal.operations.Bool;
+//import com.sun.org.apache.xpath.internal.operations.Bool;
 import entities.Medicina;
 import entities.Paciente;
 import javafx.concurrent.Task;
