@@ -129,6 +129,7 @@ public class TrabajoPartoController {
     }
 
     private void iniciarColumnas(){
+
         TableUtils.installCopyPasteHandler(tblTrabParto);
         tblTrabParto.getSelectionModel().setCellSelectionEnabled(true);
         tblTrabParto.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
