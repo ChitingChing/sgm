@@ -94,7 +94,7 @@ public class ArchivoFichaPrenatalController {
     }
     public void escogerArchivo() throws IOException {
         FileChooser fc = new FileChooser();
-        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Imagenes","*.png","*.jpg","*.jpeg"));
+    //    fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Imagenes","*.png","*.jpg","*.jpeg"));
         File file = fc.showOpenDialog(btnBuscar.getScene().getWindow());
         if(file != null) {
             txtrutaArchivo.setText(file.getPath());
